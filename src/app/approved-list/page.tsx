@@ -5,10 +5,29 @@ import { ConnectButton, useActiveWallet } from "thirdweb/react";
 import thirdwebIcon from "@public/thirdweb.svg";
 import { client } from "../client";
 import { ozean, sepolia } from "../chains";
-
+import { useEffect, useState } from "react";
+import { EthereumProvider } from "@walletconnect/ethereum-provider";
 
 export default function Home() {
-  const wallet = useActiveWallet()
+  const [provider, setProvider] = useState<Awaited<
+    ReturnType<typeof EthereumProvider.init>
+  > | null>(null);
+
+  useEffect(() => {
+    (async () => {
+      const provider = await EthereumProvider.init({
+        projectId: "08c4b07e3ad25f1a27c14a4e8cecb6f0", // REQUIRED your projectId
+        chains: [sepolia.id], // REQUIRED chain ids
+        optionalChains: [sepolia.id, ozean.id],
+        showQrModal: true,
+        rpcMap: { [sepolia.id]: sepolia.rpc, [ozean.id]: ozean.rpc },
+      });
+      console.log("set provider");
+      setProvider(provider);
+    })();
+  }, []);
+
+  const wallet = useActiveWallet();
 
   return (
     <main className="p-4 pb-10 min-h-[100vh] flex items-center justify-center container max-w-screen-lg mx-auto">
@@ -16,30 +35,35 @@ export default function Home() {
         <Header />
 
         <div className="flex justify-center flex-col items-center gap-6 mb-20">
-          <ConnectButton
-            client={client}
-            appMetadata={{
-              name: "Example App",
-              url: "https://example.com",
+          <button
+            disabled={!provider}
+            onClick={async () => {
+              console.log("connecting...");
+              await provider?.connect();
+              console.log(
+                "connected",
+                provider?.session?.namespaces,
+                provider?.session?.namespaces["eip155"]
+              );
             }}
-            chain={sepolia}
-            chains={[sepolia, ozean]}
-          />
+          >
+            Connect
+          </button>
           <div className="flex items-center gap-4">
             <button
               onClick={async () => {
-                console.log('switching to sepolia...')
-                await wallet?.switchChain(sepolia)
-                console.log('finish switch chain')
+                console.log("switching to sepolia...");
+                await wallet?.switchChain(sepolia);
+                console.log("finish switch chain");
               }}
             >
               Switch to Sepolia
             </button>
             <button
               onClick={async () => {
-                console.log('switching to ozean...')
-                await wallet?.switchChain(ozean)
-                console.log('finish switch chain')
+                console.log("switching to ozean...");
+                await wallet?.switchChain(ozean);
+                console.log("finish switch chain");
               }}
             >
               Switch to Ozean

@@ -4,7 +4,6 @@ import Image from "next/image";
 import { ConnectButton, useActiveWallet } from "thirdweb/react";
 import thirdwebIcon from "@public/thirdweb.svg";
 import { client } from "../client";
-import { defineChain } from "thirdweb";
 import { ozean, sepolia } from "../chains";
 
 
