@@ -4,9 +4,9 @@ Minimal Reproduction for the issue: https://github.com/thirdweb-dev/js/issues/58
 
 ## Pages
 
-- [working](./src/app/working/page.tsx)
+- [/working](./src/app/working/page.tsx)
   This page works because sepolia chain is passed as `chain` prop.
-- [not-working](./src/app/not-working/page.tsx)
+- [/not-working](./src/app/not-working/page.tsx)
   You can reproduce the issue by using this page.
 
   How to reproduce:
@@ -17,7 +17,7 @@ Minimal Reproduction for the issue: https://github.com/thirdweb-dev/js/issues/58
   - Click switch to Sepolia
   - You will see the error
 
-- [approved-list](./src/app/approved-list/page.tsx)
+- [/approved-list](./src/app/approved-list/page.tsx)
   In this page, I replicate the behavior of the approved list in `@walletconnect/ethereum-provider`.
 
   You will see that the approved list are only:
