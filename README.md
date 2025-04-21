@@ -1,4 +1,4 @@
-# Thirdweb Bug Reproduce
+# Thirdweb Bug Reproduces
 
 Minimal Reproduction for the issue: https://github.com/thirdweb-dev/js/issues/5803
 
